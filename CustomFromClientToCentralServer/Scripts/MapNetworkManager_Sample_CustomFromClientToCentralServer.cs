@@ -27,8 +27,7 @@ namespace MultiplayerARPG.MMO
                 if (IsClientConnected)
                 {
                     // Send message from client to map-server
-                    int clientTime = ServerUnixTime;
-                    Debug.Log("[CustomFromClientToCentralServer] client send: " + sampleMessageToCentralServer + " " + clientTime);
+                    Debug.Log("[CustomFromClientToCentralServer] client send: " + sampleMessageToCentralServer + " " + ServerUnixTime);
                     ClientSendPacket(LiteNetLib.DeliveryMethod.ReliableOrdered, 10001, (writer) =>
                     {
                         writer.Put(sampleMessageToCentralServer);
@@ -67,7 +66,7 @@ namespace MultiplayerARPG.MMO
         private void SampleHandleMsgFromCentralServer(LiteNetLibMessageHandler messageHandler)
         {
             string text = messageHandler.reader.GetString();
-            int clientTime = messageHandler.reader.GetInt();
+            long clientTime = messageHandler.reader.GetLong();
             long connectionId = messageHandler.reader.GetLong();
             Debug.Log("[CustomFromClientToCentralServer] map-server receive from central-server: " + text + " " + clientTime + " then send this to client");
             ServerSendPacket(connectionId, LiteNetLib.DeliveryMethod.ReliableOrdered, 10001, (writer) =>
@@ -83,7 +82,7 @@ namespace MultiplayerARPG.MMO
             // Receive message from client at map-server
             // Then keep transport handler at server to use later to send message to client
             string text = messageHandler.reader.GetString();
-            int clientTime = messageHandler.reader.GetInt();
+            long clientTime = messageHandler.reader.GetLong();
             Debug.Log("[CustomFromClientToCentralServer] map-server receive from client: " + text + " " + clientTime + " then send this to central-server");
             CentralAppServerRegister.ClientSendPacket(LiteNetLib.DeliveryMethod.ReliableOrdered, 10001, (writer) =>
             {
