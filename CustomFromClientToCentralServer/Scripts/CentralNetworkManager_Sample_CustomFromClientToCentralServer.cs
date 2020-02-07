@@ -18,7 +18,7 @@ namespace MultiplayerARPG.MMO
         private void SampleHandleMsgFromMapServer(LiteNetLibMessageHandler messageHandler)
         {
             string text = messageHandler.reader.GetString();
-            float clientTime = messageHandler.reader.GetFloat();
+            long clientTime = messageHandler.reader.GetLong();
             long connectionId = messageHandler.reader.GetLong();
             Debug.Log("[CustomFromClientToCentralServer] central-server receive: " + text + " " + clientTime + " then send lower-case text back to map-server");
             ServerSendPacket(messageHandler.connectionId, LiteNetLib.DeliveryMethod.ReliableOrdered, 10001, (writer) =>
