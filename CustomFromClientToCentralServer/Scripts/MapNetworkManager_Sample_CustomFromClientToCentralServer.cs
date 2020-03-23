@@ -84,7 +84,7 @@ namespace MultiplayerARPG.MMO
             string text = messageHandler.reader.GetString();
             long clientTime = messageHandler.reader.GetLong();
             Debug.Log("[CustomFromClientToCentralServer] map-server receive from client: " + text + " " + clientTime + " then send this to central-server");
-            CentralAppServerRegister.ClientSendPacket(LiteNetLib.DeliveryMethod.ReliableOrdered, 10001, (writer) =>
+            CentralAppServerRegister.SendPacket(LiteNetLib.DeliveryMethod.ReliableOrdered, 10001, (writer) =>
             {
                 writer.Put(sampleMessageToCentralServer);
                 writer.Put(ServerUnixTime);
